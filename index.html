@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GIFFY">
+<meta name="theme-color" content="#0b0c0e">
+<title>GIFFY</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#0b0c0e;--card:#16181c;--card2:#1f2228;--line:#2c3038;--silver:#c0c7d1;--hi:#ffffff;--dim:#8a929e;--acc:#e6ebf2}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--hi);font-family:-apple-system,"SF Pro Text",Helvetica,Arial,sans-serif;overscroll-behavior:none}
+body{position:fixed;inset:0;overflow:hidden}
+#app{height:100%;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top)}
+header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 4px}
+.logo{margin:0;font-size:28px;font-weight:900;letter-spacing:2px;background:linear-gradient(90deg,#fff,#8d99ae,#fff,#5c6370,#fff);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shim 3s linear infinite;font-style:italic}
+@keyframes shim{to{background-position:-200% 0}}
+.hbtn{background:var(--card2);border:1px solid var(--line);color:#fff;border-radius:14px;padding:8px 12px;font-size:15px;font-weight:700}
+.stage{padding:4px 14px 8px;position:relative}
+#cv{display:block;width:auto;max-width:100%;max-height:34vh;margin:0 auto;border-radius:16px;box-shadow:0 0 0 1px #2c3038,0 10px 30px rgba(0,0,0,.6);background:#000}
+.badge{position:absolute;left:50%;transform:translateX(-50%);bottom:14px;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:4px 10px;border-radius:20px;font-size:11px;color:var(--silver);white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis}
+.txtwrap{padding:0 14px 8px}
+textarea{width:100%;resize:none;background:var(--card);color:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:17px;font-weight:700;outline:none;font-family:inherit}
+textarea:focus{border-color:var(--silver)}
+.tabs{display:flex;gap:6px;padding:0 14px 8px}
+.tabs button{flex:1;background:var(--card);border:1px solid var(--line);color:var(--dim);padding:9px 0;border-radius:12px;font-weight:800;font-size:14px}
+.tabs button.on{background:linear-gradient(180deg,#f4f6f8,#9aa4b1);color:#0b0c0e;border-color:#fff}
+#scroller{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 14px 120px}
+.hidden{display:none!important}
+.row{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}.row::-webkit-scrollbar{display:none}
+.chip{flex:none;background:var(--card);border:1px solid var(--line);color:var(--silver);padding:7px 12px;border-radius:20px;font-weight:700;font-size:13px}
+.chip.on{background:#fff;color:#000}
+#fxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;color:#dfe3e8;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:700;min-height:74px;justify-content:center;text-align:center}
+.tile .em{font-size:24px}
+.tile.on{border-color:#fff;background:linear-gradient(180deg,#2f343c,#1a1d22);box-shadow:0 0 0 2px #fff inset,0 0 18px rgba(255,255,255,.25)}
+.sub{color:var(--dim);font-size:12px;font-weight:700;margin:6px 2px 8px;text-transform:uppercase;letter-spacing:.5px}
+#fontlist{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#fontlist .sub{grid-column:1/-1}
+.fontbtn{background:var(--card);border:1px solid var(--line);color:#fff;border-radius:12px;padding:12px 6px;font-size:18px;min-height:52px;position:relative;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.fontbtn.on{border-color:#fff;box-shadow:0 0 0 2px #fff inset}
+.cloud{position:absolute;right:5px;top:3px;font-size:10px;font-family:-apple-system,sans-serif}
+#pals{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sw{border:2px solid transparent;border-radius:14px;height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0}
+.sw b{font-size:24px;font-weight:900;font-family:Helvetica,Arial,sans-serif}
+.sw i{font-style:normal;font-size:10px;font-weight:700;color:#fff;background:rgba(0,0,0,.45);padding:1px 6px;border-radius:8px}
+.sw.on{border-color:#fff;box-shadow:0 0 14px rgba(255,255,255,.5)}
+#custom{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+#custom label{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;font-size:12px;font-weight:700;color:var(--silver);display:flex;align-items:center;justify-content:space-between}
+input[type=color]{width:34px;height:28px;border:none;background:none;padding:0}
+.set{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.set h4{margin:0 0 8px;font-size:13px;color:var(--silver)}
+.seg{display:flex;gap:6px}.seg button{flex:1;background:var(--card2);border:1px solid var(--line);color:var(--silver);border-radius:10px;padding:9px 0;font-weight:800;font-size:13px}
+.seg button.on{background:#fff;color:#000}
+input[type=range]{width:100%;accent-color:#c0c7d1}
+.tog{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px}
+.tog input{width:22px;height:22px;accent-color:#c0c7d1}
+.note{color:var(--dim);font-size:12px;margin-top:6px;line-height:1.35}
+footer{position:fixed;left:0;right:0;bottom:0;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 35%)}
+#make{width:100%;border:none;border-radius:18px;padding:16px;font-size:19px;font-weight:900;color:#0b0c0e;background:linear-gradient(180deg,#ffffff,#aeb6c2 55%,#7d8692);box-shadow:0 6px 24px rgba(255,255,255,.18),0 0 0 1px #fff inset;letter-spacing:.5px}
+#make:disabled{opacity:.5}
+button{cursor:pointer;transition:transform .08s,filter .08s;font-family:inherit}
+button:active{transform:scale(.94);filter:brightness(1.35)}
+#sheet{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;width:100%;max-width:420px;text-align:center}
+.prog{height:12px;background:#000;border-radius:8px;overflow:hidden;margin:14px 0 10px;border:1px solid var(--line)}
+#bar{height:100%;width:0;background:linear-gradient(90deg,#5c6370,#fff,#5c6370);background-size:200% 100%;animation:shim 1s linear infinite;transition:width .15s}
+#quip{color:var(--silver);font-size:14px;min-height:20px}
+#result{max-width:100%;max-height:46vh;border-radius:14px;display:block;margin:0 auto 8px;-webkit-touch-callout:default}
+#meta{color:var(--dim);font-size:12px;margin-bottom:12px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.acts button{border:1px solid var(--line);background:var(--card2);color:#fff;border-radius:14px;padding:13px 6px;font-weight:800;font-size:15px}
+.acts .pri{grid-column:1/-1;background:linear-gradient(180deg,#fff,#aeb6c2);color:#000;border-color:#fff;font-size:17px}
+.tip{color:var(--dim);font-size:11px;margin-top:10px}
+#toast{position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top));transform:translate(-50%,-150%);background:#fff;color:#000;font-weight:800;font-size:14px;padding:10px 16px;border-radius:20px;z-index:99;transition:transform .25s;box-shadow:0 8px 24px rgba(0,0,0,.5);max-width:90%;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+#confetti i{position:absolute;top:-20px;width:8px;height:14px;border-radius:2px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{top:110%;transform:rotate(720deg) translateX(40px)}}
+/* portrait lock: if the phone turns sideways, we politely un-turn the app */
+@media screen and (orientation:landscape) and (max-height:540px){
+  html{transform:rotate(-90deg);transform-origin:left top;width:100vh;height:100vw;overflow:hidden;position:absolute;top:100%;left:0}
+  body{width:100vh;height:100vw}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header><h1 class="logo">GIFFY</h1><button class="hbtn" id="surprise">🎲 Surprise me</button></header>
+  <section class="stage"><canvas id="cv" width="400" height="400"></canvas><div class="badge" id="fxBadge"></div></section>
+  <div class="txtwrap"><textarea id="txt" rows="2" maxlength="80" placeholder="Type your words… (new line = new line)"></textarea></div>
+  <nav class="tabs"><button data-tab="fx" class="on">✨ Effect</button><button data-tab="font">🔤 Font</button><button data-tab="color">🎨 Colors</button><button data-tab="set">⚙️</button></nav>
+  <div id="scroller">
+    <div class="panel" id="p_fx"><div class="row" id="cats"></div><div class="sub" id="fxCount"></div><div id="fxgrid"></div></div>
+    <div class="panel hidden" id="p_font"><div id="fontlist"></div></div>
+    <div class="panel hidden" id="p_color"><div id="pals"></div>
+      <div id="custom" class="hidden">
+        <label>Text 1<input type="color" id="c_t1"></label><label>Text 2<input type="color" id="c_t2"></label><label>Outline<input type="color" id="c_s"></label>
+        <label>BG top<input type="color" id="c_bg1"></label><label>BG bottom<input type="color" id="c_bg2"></label><label>Accent<input type="color" id="c_a"></label>
+      </div>
+      <div class="note">Accent color powers glows, lightning, neon and sparkles. Some effects bring their own scenery (sorry, the Matrix only comes in green).</div>
+    </div>
+    <div class="panel hidden" id="p_set">
+      <div class="set"><h4>GIF size</h4><div class="seg"><button data-size="sq">Square</button><button data-size="wide">Wide</button><button data-size="tall">Story</button><button data-size="big">Big Sq</button></div></div>
+      <div class="set"><h4>Loop length</h4><div class="seg"><button data-dur="1.5">1.5s</button><button data-dur="2">2s</button><button data-dur="3">3s</button><button data-dur="4">4s</button></div></div>
+      <div class="set"><h4>Text size</h4><input type="range" id="scale" min="0.5" max="1.3" step="0.05"></div>
+      <div class="set"><div class="tog">Outline around letters<input type="checkbox" id="outline"></div></div>
+      <div class="set"><div class="tog">Smooth gradients (dither)<input type="checkbox" id="dither"></div><div class="note">On = prettier gradients, slightly bigger file.</div></div>
+      <div class="set"><h4>Offline fonts</h4><button class="hbtn" id="dlfonts" style="width:100%">⬇️ Download all web fonts for offline</button><div class="note">Do this once on Wi‑Fi. Built-in iPhone fonts always work offline.</div></div>
+      <div class="note" style="text-align:center;margin-top:16px">GIFFY · made with questionable amounts of sparkle</div>
+    </div>
+  </div>
+  <footer><button id="make">✨ Make my GIF</button></footer>
+</div>
+<div id="sheet" class="hidden"><div class="box">
+  <div id="work"><div style="font-size:40px">🧪</div><div style="font-weight:900;font-size:18px">Cooking your GIF…</div><div class="prog"><div id="bar"></div></div><div id="quip"></div></div>
+  <div id="done" class="hidden"><img id="result" alt="Your GIF"><div id="meta"></div>
+    <div class="acts"><button class="pri" id="saveBtn">📸 Save to Photos</button><button id="copyBtn">📋 Copy</button><button id="dlBtn">⬇️ Files</button><button id="closeBtn" style="grid-column:1/-1">✖ Back to the lab</button></div>
+    <div class="tip">Tip: you can also long-press the GIF → “Save to Photos” or “Copy”.</div></div>
+</div></div>
+<div id="toast"></div><div id="confetti"></div>
+<script src="gif.js"></script><script src="fx.js"></script><script src="app.js"></script>
+</body>
+</html>
